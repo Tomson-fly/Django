@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>可视化平台</title>
+<link rel="stylesheet" href="/static/js/css/layui.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+		<meta name="author" content="templatemo">
+		<!--
+		Visual Admin Template
+		http://www.templatemo.com/preview/templatemo_455_visual_admin
+		-->
+		<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/templatemo-style.css" rel="stylesheet">
+
+		<!-- ************my js*********** -->
+		<script src="/static/js/echarts.min.js"></script>
+		<script src="/static/js/layui.js"></script>
+		<script src="/static/js/jquery-3.1.1.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+       <div class="layui-logo layui-hide-xs layui-bg-black">
+         <i class="layui-icon" style=font-size:35px;">&#xe62e;</i>
+{#         <i class="layui-icon layui-icon-home" style=font-size:30px;"></i>#}
+        目录
+    </div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <!-- 移动端显示 -->
+      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </li>
+
+      <li class="layui-nav-item layui-hide-xs"><a href="">信息查看</a></li>
+
+
+
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+        <a href="javascript:;">
+          <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+{#          admin#}
+            {% if request.session.loginUser %}
+              {{ request.session.loginUser  }}
+            {% endif %}
+        </a>
+        <dl class="layui-nav-child">
+{#          <dd><a href="">Your Profile</a></dd>#}
+          <dd><a href="">设置</a></dd>
+          <dd><a href="/first/denglu/">退出</a></dd>
+        </dl>
+      </li>
+
+      <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more-vertical"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+ <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+         <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="/first/test/">
+<i class="layui-icon layui-icon-home" style=font-size:15px;"></i>
+              可视化首页</a>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">
+             <i class="layui-icon">&#xe630;</i>
+              房屋信息管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/first/unsoldhouse/"><i class="layui-icon">&#xe62d;</i>未售房产信息管理</a></dd>
+            <dd><a href="/first/secondhandhouse/"><i class="layui-icon">&#xe62d;</i>二手房产信息管理</a></dd>
+            <dd><a href="/first/buyhouse/"><i class="layui-icon">&#xe62d;</i>出租房屋信息管理</a></dd>
+{#            <dd><a href="javascript:;">分析</a></dd>#}
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+               <i class="layui-icon">&#xe63c;</i>
+{#              <i class="layui-icon">&#xe624;</i>#}
+              房屋信息发布</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/first/addnew/"><i class="layui-icon">&#xe624;</i>未售房产信息发布</a></dd>
+            <dd><a href="/first/addsec/"><i class="layui-icon">&#xe624;</i>二手房产信息发布</a></dd>
+            <dd><a href="/first/addrent/"><i class="layui-icon">&#xe624;</i>出租房屋信息发布</a></dd>
+{#            <dd><a href="javascript:;">分析</a></dd>#}
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">             <i class="layui-icon">&#xe630;</i>求租信息管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="/first/quanzi/"><i class="layui-icon">&#xe62a;</i>求租信息管理</a></dd>
+            <dd><a href="/first/rentissue/"><i class="layui-icon">&#xe63c;</i>求租信息发布</a></dd>
+{#            <dd><a href="javascript:;">分析</a></dd>#}
+{#            <dd><a href="">超链接</a></dd>#}
+          </dl>
+        </li>
+<!--        <li class="layui-nav-item layui-nav-itemed">-->
+<!--          <a class="" href="javascript:;">-->
+<!--              <i class="layui-icon">&#xe629; </i>-->
+<!--              房产信息可视化</a>-->
+<!--          <dl class="layui-nav-child">-->
+<!--            <dd><a href="/first/test/">-->
+<!--                <i class="layui-icon">&#xe62c;</i>-->
+<!--                 信息可视化-->
+<!--            </a></dd>-->
+<!--{#            <dd><a href="javascript:;">分析</a></dd>#}-->
+<!--          </dl>-->
+<!--        </li>-->
+        <li class="layui-nav-item"><a href="/first/about/">
+
+             <i class="layui-icon">&#xe612;</i>
+            关于我们</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+        <div class="templatemo-content-container">
+
+			<div class="templatemo-flex-row flex-content-row">
+				<div class="col-1">
+
+				  <div class="templatemo-content-widget orange-bg">
+					<i class="fa fa-times"></i>
+					<div class="media">
+					  <div class="media-left">
+						<a href="#">
+						  <img class="media-object img-circle" src="/static/image/sunset.jpg" alt="Sunset">
+						</a>
+					  </div>
+					  <div class="media-body">
+						<h2 class="media-heading text-uppercase">房产信息可视化平台</h2>
+						<p>欢迎来到房产中介信息网</p>
+						<p>制作者：</p>
+						<p>付龙玉</p>
+					  </div>
+					</div>
+				  </div>
+
+				  <div class="templatemo-content-widget white-bg">
+					<i class="fa fa-times"></i>
+					<div class="media">
+					  <div class="media-left">
+						<h2>网站数据量</h2>
+					  </div>
+					  <div class="media-body">
+						<!-- 数据环 -->
+						<div id="ring" style="width: 380px;height:380px;"></div>
+						</div>
+					</div>
+				  </div>
+
+				</div>
+				<div class="col-1">
+				  <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+					<i class="fa fa-times"></i>
+					<div class="panel-heading templatemo-position-relative"><h2 class="text-uppercase"></h2></div>
+					<!-- 地图 -->
+					<div id="pricemap" style="width: 600px;height:650px;"></div>
+				  </div>
+				</div>
+			</div> <!-- Second row ends -->
+
+			<div class="templatemo-content-container">
+			 	<div class="templatemo-content-widget white-bg">
+
+			 		<div class="panel panel-default no-border">
+			 			<div class="panel-heading border-radius-10">
+			 				<h2>北京新房价格区间分析</h2>
+			 			</div>
+			 			<div id="barstack" style="width: 800px;height:500px;"></div>
+			 		</div>
+
+			 	</div>
+			 </div>
+
+			<div class="templatemo-flex-row flex-content-row">
+				<div class="templatemo-content-widget white-bg col-1 text-center">
+					<i class="fa fa-times"></i>
+					<h2 class="text-uppercase">北京卖房价格分析</h2>
+					<div id="pricescatter" style="width: 900px;height:600px;"></div>
+				</div>
+			</div>
+
+			<div class="templatemo-content-container">
+				<div class="templatemo-content-widget white-bg">
+
+					<div class="panel panel-default no-border">
+						<div class="panel-heading border-radius-10">
+							<h2>北京出租房屋价格·面积·数量分析</h2>
+						</div>
+
+						<div id="multy" style="width: 1000px;height:400px;"></div>
+
+					</div>
+
+					<div class="panel panel-default no-border">
+						<div class="panel-heading border-radius-10">
+							<h2>北京出租房屋条件分析</h2>
+						</div>
+						<div class="panel-body">
+							<div id="pie" style="width: 1000px;height:400px;"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- JS -->
+			<script src="/static/js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
+			<script src="/static/js/jquery-migrate-1.2.1.min.js"></script> <!--  jQuery Migrate Plugin -->\
+			<script>
+				var myChartring = echarts.init(document.getElementById('ring'));
+				myChartring.showLoading();
+				var myChartpricemap = echarts.init(document.getElementById('pricemap'));
+				myChartpricemap.showLoading();
+				var myChartpie = echarts.init(document.getElementById('pie'));
+				myChartpie.showLoading();
+				var myChartmulty = echarts.init(document.getElementById('multy'));
+				myChartmulty.showLoading();
+				var myChartscatter = echarts.init(document.getElementById('pricescatter'));
+				myChartscatter.showLoading();
+				var myChart = echarts.init(document.getElementById('barstack'));
+				myChart.showLoading();
+				var valuedata = 0;
+
+				$.get('/first/barstack/',function(jdata){
+					console.log(jdata)
+					console.log(jdata['f03'],jdata['f34'])
+					myChart.hideLoading();
+					myChart.setOption(option = {
+						tooltip: {
+							trigger: 'axis',
+							axisPointer: {            // Use axis to trigger tooltip
+								type: 'shadow'        // 'shadow' as default; can also be 'line' or 'shadow'
+							}
+						},
+						legend: {
+							data: ['小于3万', '3-4万', '4-6万','6-8万','大于8万']
+						},
+						grid: {
+							left: '3%',
+							right: '4%',
+							bottom: '3%',
+							containLabel: true
+						},
+						xAxis: {
+							type: 'value'
+						},
+						yAxis: {
+							type: 'category',
+			<!--                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']-->
+							data: ["延庆","平谷","房山","丰台","通州","密云","门头沟",
+							"朝阳","昌平","怀柔","大兴","顺义","海淀区","石景山"]
+						},
+						series: [
+							{
+								name: '小于3万',
+								type: 'bar',
+								stack: 'total',
+								label: {
+									show: true
+								},
+								emphasis: {
+									focus: 'series'
+								},
+								data: jdata['f03']
+							},
+							{
+								name: '3-4万',
+								type: 'bar',
+								stack: 'total',
+								label: {
+									show: true
+								},
+								emphasis: {
+									focus: 'series'
+								},
+								data: jdata['f34']
+							},
+							{
+								name: '4-6万',
+								type: 'bar',
+								stack: 'total',
+								label: {
+									show: true
+								},
+								emphasis: {
+									focus: 'series'
+								},
+								data: jdata['f46']
+							},
+							{
+								name: '6-8万',
+								type: 'bar',
+								stack: 'total',
+								label: {
+									show: true
+								},
+								emphasis: {
+									focus: 'series'
+								},
+								data: jdata['f68']
+							},
+							{
+								name: '大于8万',
+								type: 'bar',
+								stack: 'total',
+								label: {
+									show: true
+								},
+								emphasis: {
+									focus: 'series'
+								},
+								data: jdata['f8']
+							}
+						]
+					});
+				});
+
+				$.get('/first/priceandarea/',function(jdata){
+						console.log(jdata)
+						console.log(jdata['new'],jdata['sec'])
+						myChartscatter.hideLoading();
+						myChartscatter.setOption(option = {
+							title: {
+								text: '北京购房面积与房价关系',
+								subtext: 'Data from: Heinz 2003'
+							},
+							grid: {
+								left: '3%',
+								right: '7%',
+								bottom: '7%',
+								containLabel: true
+							},
+							tooltip: {
+								// trigger: 'axis',
+								showDelay: 0,
+								formatter: function (params) {
+									if (params.value.length > 1) {
+										return params.seriesName + ' :<br/>'
+										+ params.value[0] + '㎡ '
+										+ params.value[1] + '万元 ';
+									}
+									else {
+										return params.seriesName + ' :<br/>'
+										+ params.name + ' : '
+										+ params.value + '万元 ';
+									}
+								},
+								axisPointer: {
+									show: true,
+									type: 'cross',
+									lineStyle: {
+										type: 'dashed',
+										width: 1
+									}
+								}
+							},
+							toolbox: {
+								feature: {
+									dataZoom: {},
+									brush: {
+										type: ['rect', 'polygon', 'clear']
+									}
+								}
+							},
+							brush: {
+							},
+							legend: {
+								data: ['new house', 'second-hand house'],
+								left: 'center',
+								bottom: 10
+							},
+							xAxis: [
+								{
+									type: 'value',
+									scale: true,
+									axisLabel: {
+										formatter: '{value} ㎡'
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							yAxis: [
+								{
+									type: 'value',
+									scale: true,
+									axisLabel: {
+										formatter: '{value} 万元'
+									},
+									splitLine: {
+										show: false
+									}
+								}
+							],
+							series: [
+								{
+									name: 'new house',
+									type: 'scatter',
+									emphasis: {
+										focus: 'series'
+									},
+									data:
+				<!--                            [100.0,500.0]-->
+									jdata['new']
+									,
+									markArea: {
+										silent: true,
+										itemStyle: {
+											color: 'transparent',
+											borderWidth: 1,
+											borderType: 'dashed'
+										},
+										data: [[{
+											name: 'new house Data Range',
+											xAxis: 'min',
+											yAxis: 'min'
+										}, {
+											xAxis: 'max',
+											yAxis: 'max'
+										}]]
+									},
+									markPoint: {
+										data: [
+											{type: 'max', name: 'Max'},
+											{type: 'min', name: 'Min'}
+										]
+									},
+									markLine: {
+										lineStyle: {
+											type: 'solid'
+										},
+										data: [
+											{type: 'average', name: '平均值'},
+											{ xAxis: 160 }
+										]
+									}
+								},
+								{
+									name: 'second-hand house',
+									type: 'scatter',
+									emphasis: {
+										focus: 'series'
+									},
+									data: jdata['sec'],
+									markArea: {
+										silent: true,
+										itemStyle: {
+											color: 'transparent',
+											borderWidth: 1,
+											borderType: 'dashed'
+										},
+										data: [[{
+											name: 'second-hand house Data Range',
+											xAxis: 'min',
+											yAxis: 'min'
+										}, {
+											xAxis: 'max',
+											yAxis: 'max'
+										}]]
+									},
+									markPoint: {
+										data: [
+											{type: 'max', name: 'Max'},
+											{type: 'min', name: 'Min'}
+										]
+									},
+									markLine: {
+										lineStyle: {
+											type: 'solid'
+										},
+										data: [
+											{type: 'average', name: 'Average'},
+											{ xAxis: 170 }
+										]
+									}
+								}
+							]
+						});
+					});
+
+				$.get('/first/multy/',function(jdata){
+					console.log(jdata)
+					myChartmulty.hideLoading();
+					var colors = ['#5470C6', '#91CC75', '#EE6666'];
+					myChartmulty.setOption(option = {
+						color: colors,
+
+						tooltip: {
+							trigger: 'axis',
+							axisPointer: {
+								type: 'cross'
+							}
+						},
+						grid: {
+							right: '20%'
+						},
+						toolbox: {
+							feature: {
+								dataView: {show: true, readOnly: false},
+								restore: {show: true},
+								saveAsImage: {show: true}
+							}
+						},
+						legend: {
+							data: ['面积', '数量', '价格']
+						},
+						xAxis: [
+							{
+								type: 'category',
+								axisTick: {
+									alignWithLabel: true
+								},
+								data: jdata['data']['id'],
+							}
+						],
+						yAxis: [
+							{
+								type: 'value',
+								name: '面积',
+								min: 0,
+								max: 500,
+								position: 'right',
+								axisLine: {
+									show: true,
+									lineStyle: {
+										color: colors[0]
+									}
+								},
+								axisLabel: {
+									formatter: '{value} ㎡'
+								}
+							},
+							{
+								type: 'value',
+								name: '数量',
+								min: 0,
+								max: 850,
+								position: 'right',
+								offset: 80,
+								axisLine: {
+									show: true,
+									lineStyle: {
+										color: colors[1]
+									}
+								},
+								axisLabel: {
+									formatter: '{value} 个'
+								}
+							},
+							{
+								type: 'value',
+								name: '价格',
+								min: 0,
+								max: 80000,
+								position: 'left',
+								axisLine: {
+									show: true,
+									lineStyle: {
+										color: colors[2]
+									}
+								},
+								axisLabel: {
+									formatter: '{value} 元'
+								}
+							}
+						],
+						series: [
+							{
+								name: '面积',
+								type: 'bar',
+								data: jdata['data']['avga'],
+							},
+							{
+								name: '数量',
+								type: 'bar',
+								yAxisIndex: 1,
+								data: jdata['data']['cnt'],
+							},
+							{
+								name: '价格',
+								type: 'line',
+								yAxisIndex: 2,
+								data: jdata['data']['avgp'],
+							}
+						]
+					});
+				});
+
+				$.get('/first/rosepie/',function(jdata){
+					console.log(jdata)
+					console.log(jdata['joint'],jdata['complete'])
+					myChartpie.hideLoading();
+					myChartpie.setOption(option = {
+						title: {
+							text: '北京租房条件统计图',
+							left: 'center'
+						},
+						tooltip: {
+							trigger: 'item',
+							formatter: '{a} <br/>{b} : {c} ({d}%)'
+						},
+						legend: {
+							left: 'center',
+							top: 'bottom',
+							data: []
+						},
+						toolbox: {
+							show: true,
+							feature: {
+								mark: {show: true},
+								dataView: {show: true, readOnly: false},
+								restore: {show: true},
+								saveAsImage: {show: true}
+							}
+						},
+						series: [
+							{
+								name: '合租',
+								type: 'pie',
+								radius: [20, 140],
+								center: ['25%', '50%'],
+								roseType: 'area',
+								itemStyle: {
+									borderRadius: 5
+								},
+								emphasis: {
+									label: {
+										show: true
+									}
+								},
+								data: jdata['joint'],
+							},
+							{
+								name: '整租',
+								type: 'pie',
+								radius: [20, 140],
+								center: ['75%', '50%'],
+								roseType: 'area',
+								itemStyle: {
+									borderRadius: 5
+								},
+								label: {
+									show: false
+								},
+								data: jdata['complete']
+							}
+						]
+					});
+				});
+
+				$.get('/static/json/beijing.json', function (geoJson) {
+
+					$.get('/first/echarts_json/',function(jdata){
+						console.log(jdata['data'])
+						myChartpricemap.hideLoading();
+
+						echarts.registerMap('HK', geoJson);
+
+						myChartpricemap.setOption(option = {
+							title: {
+								text: '北京各区新楼盘均价',
+							},
+							tooltip: {
+								trigger: 'item',
+								formatter: '{b}<br/>{c} (万元 / m2)'
+							},
+							toolbox: {
+								show: true,
+								orient: 'vertical',
+								left: 'right',
+								top: 'center',
+								feature: {
+									dataView: {readOnly: false},
+									restore: {},
+									saveAsImage: {}
+								}
+							},
+							visualMap: {
+								min: 2.5,
+								max: 8,
+								text: ['High', 'Low'],
+								realtime: false,
+								calculable: true,
+								inRange: {
+									color: ['lightskyblue', 'yellow', 'orangered']
+								}
+							},
+							series: [{
+								name: '香港18区人口密度',
+								type: 'map',
+								mapType: 'HK', // 自定义扩展图表类型
+								label: {
+									show: true
+								},
+								data:jdata['data'],
+								nameMap:{
+									"延庆区":"延庆",
+									"平谷区":"平谷",
+									"房山区":"房山",
+									"丰台区":"丰台",
+									"通州区":"通州",
+									"密云区":"密云",
+									"门头沟区":"门头沟",
+									"朝阳区":"朝阳",
+									"昌平区":"昌平",
+									"怀柔区":"怀柔",
+									"大兴区":"大兴",
+									"顺义区":"顺义",
+									"海淀区":"海淀",
+									"石景山区":"石景山",
+								}
+							}]
+						});
+					});
+				});
+
+				$.get('/first/ring/',function(jdata){
+					console.log(jdata)
+					console.log(jdata['new'],jdata['sec'],jdata['rent'])
+					myChartring.hideLoading();
+					myChartring.setOption(option = {
+						series: [{
+							type: 'gauge',
+							startAngle: 90,
+							endAngle: 78,
+							pointer: {
+								show: false
+							},
+							progress: {
+								show: true,
+								overlap: false,
+								roundCap: true,
+								clip: false,
+								itemStyle: {
+									borderWidth: 1,
+									borderColor: '#464646'
+								}
+							},
+							axisLine: {
+
+								lineStyle: {
+									width: 40
+								}
+							},
+							splitLine: {
+								show: false,
+								distance: 0,
+								length: 10
+							},
+							axisTick: {
+								show: false
+							},
+							axisLabel: {
+								show: false,
+								distance: 50
+							},
+							data: [{
+								value: jdata['new'],
+								name: '新房数据',
+								title: {
+									offsetCenter: ['0%', '-30%']
+								},
+								detail: {
+									offsetCenter: ['0%', '-20%']
+								}
+								},
+								{
+									value: jdata['sec'],
+									name: '二手房数据',
+									title: {
+										offsetCenter: ['0%', '0%']
+									},
+									detail: {
+										offsetCenter: ['0%', '10%']
+									}
+								},
+								{
+									value: jdata['rent'],
+									name: '租房数据',
+									title: {
+										offsetCenter: ['0%', '30%']
+									},
+									detail: {
+										offsetCenter: ['0%', '40%']
+									}
+								}
+							],
+							title: {
+								fontSize: 14
+							},
+							detail: {
+								width: 50,
+								height: 14,
+								fontSize: 14,
+								color: 'auto',
+								borderColor: 'auto',
+								borderRadius: 20,
+								borderWidth: 1,
+								formatter: '{value}条'
+							}
+						}]
+					});
+				});
+
+
+				$(document).ready(function(){
+				if($.browser.mozilla) {
+				  //refresh page on browser resize
+				  // http://www.sitepoint.com/jquery-refresh-page-browser-resize/
+				  $(window).bind('resize', function(e)
+				  {
+					if (window.RT) clearTimeout(window.RT);
+					window.RT = setTimeout(function()
+					{
+					  this.location.reload(false); /* false to get page from cache */
+					}, 200);
+				  });
+				} else {
+				  $(window).resize(function(){
+				  });
+				}
+			  });
+
+			</script>
+
+			<script type="text/javascript" src="/static/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
+		</div>
+
+  </div>
+</div>
+
+<script src="/static/js/layui.js"></script>
+<script>
+//JS
+layui.use(['element', 'layer', 'util'], function(){
+  var element = layui.element
+  ,layer = layui.layer
+  ,util = layui.util
+  ,$ = layui.$;
+
+  //头部事件
+  util.event('lay-header-event', {
+    //左侧菜单事件
+    menuLeft: function(othis){
+      layer.msg('展开左侧菜单的操作', {icon: 0});
+    }
+    ,menuRight: function(){
+      layer.open({
+        type: 1
+        ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+        ,area: ['260px', '100%']
+        ,offset: 'rt' //右上角
+        ,anim: 5
+        ,shadeClose: true
+      });
+    }
+  });
+
+});
+</script>
+</body>
+</html>
